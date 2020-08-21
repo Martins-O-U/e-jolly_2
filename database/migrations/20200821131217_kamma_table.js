@@ -16,6 +16,8 @@ exports.up = function (knex) {
         .createTable('InvitedGuestList', table => {
             table.increments('id');
             table.string('Name', 150).notNullable()
+            table.integer('GuestList_Id').unsigned().notNullable().references('id')
+                .inTable('EventList').onUpdate('CASCADE').onDelete('CASCADE');
         })
 
 };
