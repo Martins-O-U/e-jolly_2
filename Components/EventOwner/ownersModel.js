@@ -12,3 +12,8 @@ function findAnOwner(name) {
         .where({ EventName: name }).first()
         .select("Name", "Email", "PhoneNumber", "EventName")
 }
+
+module.exports = {
+    findAllOwners,
+    findAnOwner
+}
