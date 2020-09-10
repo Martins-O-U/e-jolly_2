@@ -1,10 +1,12 @@
 const Users = require('./ownersModel');
+const bcrypt = require('bcryptjs')
+const { authenticate, generateToken } = require('../../Auth/Authentication')
 
-const getAnOwner = async (req, res) => {
+const getAPlanner = async (req, res) => {
     try {
         console.log(req.params.id)
 
-        const owner = Users.findAnOwner(req.params.id)
+        const owner = await Users.findAPlanner(req.params.id)
         console.log(owner)
         return res.status(200).json(owner);
     } catch (error) {
@@ -12,9 +14,9 @@ const getAnOwner = async (req, res) => {
     }
 };
 
-const getAllOwners = async (req, res) => {
+const getAllPlanners = async (req, res) => {
     try {
-        const owners = Users.findAllOwners()
+        const owners = await Users.findAllPlanners()
         console.log(owners)
         return res.status(200).json(owners);
     } catch (error) {
@@ -24,6 +26,6 @@ const getAllOwners = async (req, res) => {
 
 
 module.exports = {
-    getAllOwners,
-    getAnOwner
+    getAllPlanners,
+    getAPlanner
 }

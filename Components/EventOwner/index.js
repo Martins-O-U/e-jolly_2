@@ -1,9 +1,9 @@
 const express = require('express');
-const OwnersInfo = require('./ownerControler');
+const PlannersInfo = require('./ownerControler');
 const router = express.Router();
 
-router.get('/allOwners', OwnersInfo.getAllOwners);
-router.get('/anOwner/:id', OwnersInfo.getAnOwner);
+router.get('/allOwners', PlannersInfo.getAllPlanners);
+router.get('/anOwner/:id', PlannersInfo.getAPlanner);
 
 
 module.exports = router;

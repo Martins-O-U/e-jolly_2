@@ -1,19 +1,19 @@
 const db = require("../../database/db-config");
 
-function findAllOwners() {
-    return db("EventPlannerList")
-        .join("EventList", "EventPlannerList.id", "EventList.id")
-        .select("Name", "Email", "PhoneNumber", "EventName")
+function findAllPlanners() {
+    return db("EventPlanners")
+        .join("Events", "EventPlanners.id", "Events.id")
+        .select("username", "email", "phoneNumber", "location")
 };
 
-function findAnOwner(name) {
-    return db("EventPlannerList")
-        .join("EventList", "EventPlannerList.id", "EventList.id")
-        .where({ EventName: name }).first()
-        .select("Name", "Email", "PhoneNumber", "EventName")
+function findAPlanner(name) {
+    return db("EventPlanners")
+        .join("Events", "EventPlanners.id", "Events.id")
+        .where({ username: name }).first()
+        .select("username", "email", "phoneNumber", "location", "eventName")
 }
 
 module.exports = {
-    findAllOwners,
-    findAnOwner
+    findAllPlanners,
+    findAPlanner
 }
