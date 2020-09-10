@@ -6,6 +6,7 @@ exports.up = function (knex) {
             table.integer('phoneNumber', 20);
             table.varchar('username').notNullable();
             table.string('email', 128).unique().notNullable();
+            users.string('password', 128).notNullable();
             table.varchar('location');
             table.timestamps('created_at');
         })
@@ -29,7 +30,7 @@ exports.up = function (knex) {
         })
         .createTable('DrinkList', table => {
             table.increments('id');
-            table.string("foodName", 128);
+            table.string("drinkName", 128);
             table.integer('eventDrink_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
         })

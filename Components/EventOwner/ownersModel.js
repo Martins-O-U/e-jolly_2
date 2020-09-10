@@ -1,5 +1,19 @@
 const db = require("../../database/db-config");
 
+function addPlanner(user) {
+    return db("EventPlanners").insert(user, "id")
+        .then(ids => {
+            const [id] = ids;
+            return findAddedPlanner(id);
+        })
+}
+
+function findAddedPlanner(id) {
+    return db("EventPlanners")
+        .where({ id: id })
+        .select("username", "email", "phoneNumber", "location")
+}
+
 function findAllPlanners() {
     return db("EventPlanners")
         .join("Events", "EventPlanners.id", "Events.id")
@@ -7,13 +21,15 @@ function findAllPlanners() {
 };
 
 function findAPlanner(name) {
-    return db("Events")
-        .join("EventPlanners", "EventPlanners.id", "Events.id")
+    return db("EventPlanners")
+        .join("Events", "EventPlanners.id", "Events.id")
         .where({ username: name })
         .select("username", "email", "phoneNumber", "location", "eventName")
 }
 
 module.exports = {
     findAllPlanners,
-    findAPlanner
+    findAPlanner,
+    findAddedPlanner,
+    addPlanner
 }
