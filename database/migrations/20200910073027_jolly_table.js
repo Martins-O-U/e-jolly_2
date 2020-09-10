@@ -4,15 +4,15 @@ exports.up = function (knex) {
         .createTable('EventPlanners', table => {
             table.increments('id');
             table.integer('phoneNumber', 20);
-            table.varchar('username').notNullable();
+            table.string('username').notNullable();
             table.string('email', 128).unique().notNullable();
-            users.string('password', 128).notNullable();
-            table.varchar('location');
+            table.string('password', 128).notNullable();
+            table.string('location');
             table.timestamps('created_at');
         })
         .createTable('Events', table => {
             table.increments('id');
-            table.varchar('eventName').notNullable();
+            table.string('eventName').notNullable();
             table.integer('event_id', 5).unsigned().notNullable()
                 .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
         })

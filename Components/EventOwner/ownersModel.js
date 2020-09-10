@@ -20,6 +20,10 @@ function findAllPlanners() {
         .select("username", "email", "phoneNumber", "location")
 };
 
+function findPlannersBy(filter) {
+    return db("EventPlanners").where({ username: filter });
+}
+
 function findAPlanner(name) {
     return db("EventPlanners")
         .join("Events", "EventPlanners.id", "Events.id")
@@ -31,5 +35,6 @@ module.exports = {
     findAllPlanners,
     findAPlanner,
     findAddedPlanner,
-    addPlanner
+    addPlanner,
+    findPlannersBy
 }

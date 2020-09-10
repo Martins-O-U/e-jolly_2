@@ -21,21 +21,28 @@ const signup = async (req, res) => {
 }
 
 const login = async (req, res) => {
+    console.log("body with req...." + req.body.username)
+    let user = req.body;
     let { username, password } = req.body;
     if (username && password) {
-        const user = await Users.findAPlanner({ username }).first()
-        if (user && bcrypt.compareSync(password, user.password)) {
-            try {
+        try {
+            console.log("logged b4 await...." + username)
+            const planner = await Users.findPlannersBy(username)
+            console.log("logged...." + password)
+            console.log("logged...." + username)
+            console.log("database1..." + Users.findPlannersBy(username))
+            console.log("database2..." + planner.username)
+            if (planner && bcrypt.compareSync(password, planner.password)) {
                 const token = await generateToken(user);
                 return res.status(200).json({
-                    message: `Welcome, on board ${user.username}`, token
+                    message: `Welcome, on board ${planner.username}`, token
                 })
-            } catch (error) {
-                return res.status(500).json({ message: "Oops!, Something went wrong:- " + error.message });
             }
-        }
-        else {
-            return res.status(401).json({ message: "Invalid Credentials!" })
+            else {
+                return res.status(401).json({ message: "Invalid Credentials!" })
+            }
+        } catch (error) {
+            return res.status(500).json({ message: "Oops!, Something went wrong:- " + error.message });
         }
     } else {
         res.status(400).json({ message: "Please Provide username and password" })
