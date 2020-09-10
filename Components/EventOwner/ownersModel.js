@@ -7,9 +7,9 @@ function findAllPlanners() {
 };
 
 function findAPlanner(name) {
-    return db("EventPlanners")
-        .join("Events", "EventPlanners.id", "Events.id")
-        .where({ username: name }).first()
+    return db("Events")
+        .join("EventPlanners", "EventPlanners.id", "Events.id")
+        .where({ username: name })
         .select("username", "email", "phoneNumber", "location", "eventName")
 }
 
