@@ -18,14 +18,20 @@ exports.up = function (knex) {
         .createTable('Tables', table => {
             table.increments('id');
             table.integer("table", 5);
+            table.integer('eventTable_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('FoodList', table => {
             table.increments('id');
             table.string("foodName", 128);
+            table.integer('eventFood_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('DrinkList', table => {
             table.increments('id');
             table.string("foodName", 128);
+            table.integer('eventDrink_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('GuestList', table => {
             table.increments('id');
@@ -52,11 +58,11 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
     return knex.schema
-        .dropTableIfExists('EventPlanners')
-        .dropTableIfExists('Events')
-        .dropTableIfExists('GuestList')
         .dropTableIfExists('NumberPerGuest')
-        .dropTableIfExists('Tables')
+        .dropTableIfExists('GuestList')
+        .dropTableIfExists('DrinkList')
         .dropTableIfExists('FoodList')
-        .dropTableIfExists('DrinkList');
+        .dropTableIfExists('Tables')
+        .dropTableIfExists('Events')
+        .dropTableIfExists('EventPlanners')
 };
