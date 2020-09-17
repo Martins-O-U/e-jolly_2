@@ -21,7 +21,9 @@ function findAllPlanners() {
 };
 
 function findPlannersBy(filter) {
-    return db("EventPlanners").where({ username: filter });
+    return db("EventPlanners")
+        .where({ username: filter })
+        .select("username");
 }
 
 function findAPlanner(name) {
