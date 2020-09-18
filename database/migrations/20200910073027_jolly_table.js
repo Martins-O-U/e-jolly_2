@@ -37,8 +37,14 @@ exports.up = function (knex) {
         .createTable('GuestList', table => {
             table.increments('id');
             table.string('guestName').notNullable();
-            table.integer('totalInvitedPersons');
-            table.integer('totalNumberOfTables');
+            table.integer('invitedNumber');
+            table.integer('guestEvent_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+        })
+        .createTable('GuestLink', table => {
+            table.increments('id');
+            table.integer('guestLinkEvent_id', 5).unsigned().notNullable()
+                .references('id').inTable('GuestList').onDelete('CASCADE').onUpdate('CASCADE');
             table.integer('guestEvent_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
             table.integer('guestTable_id', 5).unsigned().notNullable()
@@ -60,6 +66,7 @@ exports.up = function (knex) {
 exports.down = function (knex) {
     return knex.schema
         .dropTableIfExists('NumberPerGuest')
+        .dropTableIfExists('GuestLink')
         .dropTableIfExists('GuestList')
         .dropTableIfExists('DrinkList')
         .dropTableIfExists('FoodList')

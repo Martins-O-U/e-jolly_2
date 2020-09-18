@@ -9,7 +9,7 @@ exports.seed = function (knex) {
         { id: 2, foodName: 'Yam', eventFood_id: 2 },
         { id: 3, foodName: 'Fish', eventFood_id: 1 },
         { id: 4, foodName: 'Chicken', eventFood_id: 2 },
-        { id: 5, foodName: 'PepperedSoup', eventFood_id: 3 },
+        { id: 5, foodName: 'PepperedSoup', eventFood_id: 2 },
         { id: 6, foodName: 'Afang', eventFood_id: 1 }
       ]);
     });

@@ -11,7 +11,6 @@ const getAGuestById = async (req, res) => {
 
 const getAllGuests = async (req, res) => {
     try {
-        console.log(req.params.id)
         const guests = await Users.findAllGuest(req.params.id)
         return res.status(200).json(guests);
     } catch (error) {
