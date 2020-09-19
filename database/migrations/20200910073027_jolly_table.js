@@ -13,7 +13,7 @@ exports.up = function (knex) {
         .createTable('Events', table => {
             table.increments('id');
             table.string('eventName').notNullable();
-            table.integer('event_id', 5).unsigned().notNullable()
+            table.integer('eventPlanner_id', 5).unsigned().notNullable()
                 .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('Tables', table => {
@@ -36,14 +36,14 @@ exports.up = function (knex) {
         })
         .createTable('GuestList', table => {
             table.increments('id');
-            table.string('guestName').notNullable();
+            table.string('guestName');
             table.integer('invitedNumber');
-            table.integer('guestEvent_id', 5).unsigned().notNullable()
+            table.integer('eventGuest_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('GuestLink', table => {
             table.increments('id');
-            table.integer('guestLinkEvent_id', 5).unsigned().notNullable()
+            table.integer('guest_id', 5).unsigned().notNullable()
                 .references('id').inTable('GuestList').onDelete('CASCADE').onUpdate('CASCADE');
             table.integer('guestEvent_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
@@ -53,12 +53,6 @@ exports.up = function (knex) {
                 .references('id').inTable('FoodList').onDelete('CASCADE').onUpdate('CASCADE');
             table.integer('guestDrink', 5).unsigned().notNullable()
                 .references('id').inTable('DrinkList').onDelete('CASCADE').onUpdate('CASCADE');
-        })
-        .createTable('NumberPerGuest', table => {
-            table.increments('id');
-            table.integer("invitedPersons");
-            table.integer('numberPerGuest_id', 5).unsigned().notNullable()
-                .references('id').inTable('GuestList').onDelete('CASCADE').onUpdate('CASCADE');
         })
 
 };

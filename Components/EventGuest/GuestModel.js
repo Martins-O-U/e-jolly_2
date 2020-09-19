@@ -29,14 +29,13 @@ const findGuestByName = (name) => {
 }
 
 const findAllGuest = (event) => {
-    return db
-        .select("GuestList.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table", "Events.eventName", "Events.id")
-        .from("GuestList")
-        .join('Events', "Events.id", "GuestList.id")
-        .leftJoin('Tables', "Tables.id", "GuestList.id")
-        .leftJoin('FoodList', "FoodList.id", "GuestList.id")
-        .leftJoin('DrinkList', "DrinkList.id", "GuestList.id")
-        .where("Events.eventName", "=", event)
+    return db("GuestLink").where("GuestLink.guestEvent_id", "=", event)
+        .join('Events', "Events.id", "GuestLink.id")
+        .leftJoin('Tables', "Tables.id", "GuestLink.id")
+        .leftJoin('FoodList', "FoodList.id", "GuestLink.id")
+        .leftJoin('DrinkList', "DrinkList.id", "GuestLink.id")
+        .leftJoin('GuestList', "GuestList.id", "GuestLink.id")
+        .select("GuestList.guestName", "GuestList.eventGuest_id", "DrinkList.drinkName", "FoodList.foodName", "Tables.table", "Events.eventName", "Events.id")
 }
 module.exports = {
     addGuest,
