@@ -17,7 +17,7 @@ function findAddedPlanner(id) {
 function findAllPlanners() {
     return db("EventPlanners")
         .join("Events", "EventPlanners.id", "Events.id")
-        .select("username", "email", "phoneNumber", "location")
+        .select("EventPlanners.id", "username", "email", "phoneNumber", "location", "Events.eventName")
 };
 
 function findPlannersBy(filter) {
@@ -26,10 +26,14 @@ function findPlannersBy(filter) {
         .select("username");
 }
 
-function findAPlanner(name) {
-    return db("EventPlanners")
-        .join("Events", "EventPlanners.id", "Events.id")
-        .where({ username: name })
+function findAPlanner(searchTerms) {
+    return db()
+        .from('EventPlanners as ep')
+        .whereRaw(
+            'LOWER(ep.username) LIKE ?',
+            `%${searchTerms.search_query.toLowerCase()}%`
+        )
+        .join("Events", "ep.id", "Events.id")
         .select("username", "email", "phoneNumber", "location", "eventName")
 }
 

@@ -12,34 +12,35 @@ exports.up = function (knex) {
         })
         .createTable('Events', table => {
             table.increments('id');
-            table.string('eventName').notNullable();
             table.integer('eventPlanner_id', 5).unsigned().notNullable()
                 .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
+            table.string('eventName').notNullable();
         })
+
         .createTable('Tables', table => {
             table.increments('id');
-            table.integer("table", 5);
             table.integer('eventTable_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.string("table", 5);
         })
         .createTable('FoodList', table => {
             table.increments('id');
-            table.string("foodName", 128);
             table.integer('eventFood_id', 5).unsigned().notNullable()
-                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE')
+            table.string("foodName", 128);
         })
         .createTable('DrinkList', table => {
             table.increments('id');
-            table.string("drinkName", 128);
             table.integer('eventDrink_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.string("drinkName", 128);
         })
         .createTable('GuestList', table => {
             table.increments('id');
-            table.string('guestName');
-            table.integer('invitedNumber');
             table.integer('eventGuest_id', 5).unsigned().notNullable()
                 .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.string('guestName');
+            table.integer('invitedNumber');
         })
         .createTable('GuestLink', table => {
             table.increments('id');

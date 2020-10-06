@@ -51,7 +51,8 @@ const login = async (req, res) => {
 
 const getAPlanner = async (req, res) => {
     try {
-        const owner = await Users.findAPlanner(req.params.id)
+        const searchTerms = req.query
+        const owner = await Users.findAPlanner(searchTerms)
         return res.status(200).json(owner);
     } catch (error) {
         return res.status(500).json({ error: error.message });
