@@ -9,6 +9,17 @@ const getAGuestById = async (req, res) => {
     }
 };
 
+const getAGuestByName = async (req, res) => {
+    try {
+        const searches = req.query
+        console.log(searches)
+        const AGuest = await Users.findGuestByName(searches)
+        return res.status(200).json(AGuest);
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+};
+
 const getAllGuests = async (req, res) => {
     try {
         const guests = await Users.findAllGuest(req.params.id)
@@ -21,5 +32,6 @@ const getAllGuests = async (req, res) => {
 
 module.exports = {
     getAllGuests,
+    getAGuestByName,
     getAGuestById
 }

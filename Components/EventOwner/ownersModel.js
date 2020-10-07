@@ -27,7 +27,7 @@ function findPlannersBy(filter) {
 }
 
 function findAPlanner(searchTerms) {
-    return db()
+    return db("EventPlanners")
         .from('EventPlanners as ep')
         .whereRaw(
             'LOWER(ep.username) LIKE ?',
