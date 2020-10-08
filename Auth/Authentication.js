@@ -21,7 +21,7 @@ function authenticate(req, res, next) {
             }
         })
     } else {
-        res.status(401).json({ you: 'Invalid credentials!' });
+        res.status(401).json({ you: 'Invalid credentials!, Please ensure that you are logged in' });
     }
 }
 

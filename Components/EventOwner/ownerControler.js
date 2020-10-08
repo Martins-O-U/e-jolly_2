@@ -1,6 +1,6 @@
 const Users = require('./ownersModel');
 const bcrypt = require('bcryptjs')
-const { authenticate, generateToken } = require('../../Auth/Authentication')
+const { generateToken } = require('../../Auth/Authentication')
 
 const signup = async (req, res) => {
     let user = req.body;
@@ -20,34 +20,29 @@ const signup = async (req, res) => {
     }
 }
 
+
 const login = async (req, res) => {
-    console.log("body with req...." + req.body.username)
-    let user = req.body;
     let { username, password } = req.body;
-    if (username && password) {
+    if (!username && !password) {
+        res.status(400).json({ message: "Please Provide username and password" })
+    } else {
         try {
-            console.log("logged b4 await...." + username)
-            const planner = await Users.findPlannersBy(username)
-            console.log("logged...." + password)
-            console.log("logged...." + username)
-            console.log("database1..." + Users.findPlannersBy(username))
-            console.log("database2..." + planner.username)
-            if (planner && bcrypt.compareSync(password, planner.password)) {
-                const token = await generateToken(user);
-                return res.status(200).json({
-                    message: `Welcome, on board ${planner.username}`, token
+            const user = await Users.findPlannersBy({ username }).first()
+            console.log(user + " before if ")
+            if (user && bcrypt.compareSync(password, user.password)) {
+                const token = generateToken(user);
+                res.status(200).json({
+                    message: `Welcome, on board ${user.username}`, token
                 })
-            }
-            else {
-                return res.status(401).json({ message: "Invalid Credentials!" })
+            } else {
+                res.status(401).json({ message: "Invalid credentials." });
             }
         } catch (error) {
-            return res.status(500).json({ message: "Oops!, Something went wrong:- " + error.message });
+            res.status(500).json({ message: "Oops!, Something went wrong:- " + error.message });
         }
-    } else {
-        res.status(400).json({ message: "Please Provide username and password" })
     }
 };
+
 
 const getAPlanner = async (req, res) => {
     try {

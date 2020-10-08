@@ -22,8 +22,7 @@ function findAllPlanners() {
 
 function findPlannersBy(filter) {
     return db("EventPlanners")
-        .where({ username: filter })
-        .select("username");
+        .where(filter)
 }
 
 function findAPlanner(searchTerms) {
