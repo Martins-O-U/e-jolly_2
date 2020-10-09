@@ -43,14 +43,14 @@ const findGuestByName = (searchTerms) => {
 
 const findAllGuest = (event) => {
     return db('Events')
-        .from('GuestLink as G')
-        .where("G.guestEvent_id", "=", event)
-        .join(" Events as E", "G.id", "E.id")
-        .leftJoin('Tables', "Tables.id", "G.id")
-        .leftJoin('FoodList', "FoodList.id", "G.id")
-        .leftJoin('DrinkList', "DrinkList.id", "G.id")
-        .leftJoin('GuestList', "GuestList.id", "G.id")
-        .select("E.id", "G.guest_id", "GuestList.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table")
+        .from('GuestLink as g')
+        .where("g.guestEvent_id", "=", event)
+        .join(" Events as e", "g.id", "e.id")
+        .leftJoin('Tables', "Tables.id", "g.id")
+        .leftJoin('FoodList', "FoodList.id", "g.id")
+        .leftJoin('DrinkList', "DrinkList.id", "g.id")
+        .leftJoin('GuestList', "GuestList.id", "g.id")
+        .select("e.id", "g.guest_id", "GuestList.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table")
 }
 const deleteGuestName = (id) => {
     return db('GuestList')
