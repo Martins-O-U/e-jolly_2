@@ -12,8 +12,6 @@ exports.up = function (knex) {
         })
         .createTable('Events', table => {
             table.increments('id');
-            table.integer('eventPlanner_id', 5).unsigned().notNullable()
-                .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
             table.string('eventName').notNullable();
         })
 

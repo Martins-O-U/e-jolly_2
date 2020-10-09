@@ -11,17 +11,15 @@ const addEvents = (events) => {
 const findAddedEvent = (id) => {
     return db("Events")
         .where({ id: id }).first()
-        .join("EventPlanners", "Events.id", "EventsPlanners.id")
-        .select("Events.eventName", "Events.eventPlanner_id", "EventPlanner.username")
+        .select("*")
 }
 
 const findAllPlannerEvents = (id) => {
-    return db("EventPlannerLink")
-        .from("EventPlannerLink")
-        .where({ id: id })
-        .join("Events", "EventPlannerLink.id", "Events.id")
-        .join("EventPlanners", "EventPlanners.id", "EventPlannerLink.id")
-        .select("Events.eventName", "Events.eventPlanner_id", "EventPlanner.username")
+    return db("EventPlanners")
+        .from("EventPlannerLink as epl")
+        .where("epl.eventPlanner_id", "=", id)
+        .join("Events as E", "epl.id", "E.id")
+        .select("eventPlanner_id", "event_id", "eventName")
 }
 
 const deleteEventName = (id) => {

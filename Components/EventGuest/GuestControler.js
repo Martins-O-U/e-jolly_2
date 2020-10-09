@@ -59,7 +59,7 @@ const deleteGuestInfo = async (req, res) => {
     try {
         const { id } = req.params;
         await Users.deleteGuestName(id);
-        return res.sendStatus(204).json({ Message: `Guest with id ${req.params.id} has been deleted` });
+        return res.status(204).json({ Message: `Guest with id ${req.params.id} has been deleted` });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }
