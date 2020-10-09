@@ -3,7 +3,10 @@ const GuestsInfo = require('./GuestControler');
 const router = express.Router();
 
 router.get('/allGuests/:id', GuestsInfo.getAllGuests);
-router.get('/guestById/:id', GuestsInfo.getAGuestById);
+router.get('/guests/:id', GuestsInfo.getAGuestById);
+router.delete('/guests/', GuestsInfo.deleteGuestInfo);
+router.patch('/guests/', GuestsInfo.updateGuestInfo);
+router.post('/guests/', GuestsInfo.addAGuest);
 router.get('/guestSearch/', GuestsInfo.getAGuestByName);
 
 

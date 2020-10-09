@@ -5,10 +5,20 @@ const addGuest = (guest) => {
     return db("GuestList").insert(guest, "id")
         .then(ids => {
             const [id] = ids;
-            return findGuestById(id);
+            return findAddedGuest(id);
         })
 }
 
+const linkGuest = links => {
+    return db('GuestLink').insert(links, "id")
+        .then(ids => {
+            const [id] = ids;
+            return findAddedGuest(id)
+        })
+}
+const findAddedGuest = (id) => {
+    return db('GuestList').where({ id: id }).select('*')
+}
 
 const findGuestById = (id) => {
     return db("GuestList")
@@ -20,20 +30,15 @@ const findGuestById = (id) => {
         .select("GuestList.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table")
 }
 
-function findGuestByName(searches) {
+const findGuestByName = (searchTerms) => {
     return db("GuestList")
-        .from('GuestList as G')
+        .from('GuestList as gl')
         .whereRaw(
-            'LOWER(G.guestName) LIKE ?',
-            `%${searches.search_query.toLowerCase()}%`
+            'LOWER(gl.guestName) LIKE ?',
+            `%${searchTerms.search_query.toLowerCase()}%`
         )
-        .select('*')
-    // .join('GuestList', "GL.id", "GuestList.id")
-    // .join('Events', "Events.id", "GuestLink.id")
-    // .join('Tables', "Tables.id", "GuestLink.id")
-    // .join('FoodList', "FoodList.id", "GuestLink.id")
-    // .join('DrinkList', "DrinkList.id", "GuestLink.id")
-    // .select("GL.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table", "Events.eventName")
+        .join('Events', "gl.id", "Events.id")
+        .select("*")
 }
 
 const findAllGuest = (event) => {
@@ -47,11 +52,25 @@ const findAllGuest = (event) => {
         .leftJoin('GuestList', "GuestList.id", "G.id")
         .select("E.id", "G.guest_id", "GuestList.guestName", "DrinkList.drinkName", "FoodList.foodName", "Tables.table")
 }
+const deleteGuestName = (id) => {
+    return db('GuestList')
+        .where({ id })
+        .del();
+}
+
+const updateGuestName = (id, changes) => {
+    return db('GuestList')
+        .where({ id })
+        .update(changes);
+}
 
 module.exports = {
     addGuest,
     findGuestByName,
     findGuestById,
-    findAllGuest
+    findAllGuest,
+    deleteGuestName,
+    updateGuestName,
+    linkGuest
 
 }
