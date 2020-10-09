@@ -15,10 +15,10 @@ const findAddedEvent = (id) => {
         .select("Events.eventName", "Events.eventPlanner_id", "EventPlanner.username")
 }
 
-const findAllPlannerEvents = (username) => {
+const findAllPlannerEvents = (id) => {
     return db("EventPlannerLink")
         .from("EventPlannerLink")
-        .where({ username: username })
+        .where({ id: id })
         .join("Events", "EventPlannerLink.id", "Events.id")
         .join("EventPlanners", "EventPlanners.id", "EventPlannerLink.id")
         .select("Events.eventName", "Events.eventPlanner_id", "EventPlanner.username")

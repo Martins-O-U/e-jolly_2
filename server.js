@@ -5,6 +5,7 @@ const helmet = require("helmet");
 
 const planners = require("./Components/EventOwner/index")
 const guest = require("./Components/EventGuest/index")
+const events = require("./Components/Events/index")
 
 const server = express()
 
@@ -19,6 +20,7 @@ server.use(express.json())
 
 server.use('/plannerList', planners);
 server.use('/guestList', guest)
+server.use('/events/', events)
 server.get('/', (req, res) => {
     return res.json({ message: 'API is up ' });
 });
