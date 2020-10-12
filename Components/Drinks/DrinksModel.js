@@ -16,10 +16,13 @@ const findAddedDrink = (id) => {
 
 const findAllEventDrinks = (id) => {
     return db("DrinkList")
-        .from("GuestLink as gl")
-        .where("gl.guestEvent_id", "=", id)
-        .join("Events as e", "gl.id", "e.id")
-        .select("*")
+        .from("Events as e")
+        .where("edl.event_id", "=", id)
+        .join("EventDrinkLink as edl", "edl.id", "e.id")
+        //.join("Events as e", "edl.id", "e.id")
+        .join("DrinkList as d", "edl.id", "d.id")
+        //.select("*")
+        .select("eventDrink_id", "drinkName", "event_id", "eventName")
 }
 
 const deleteDrinkName = (id) => {

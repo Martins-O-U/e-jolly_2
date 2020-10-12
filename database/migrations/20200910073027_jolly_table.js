@@ -14,24 +14,45 @@ exports.up = function (knex) {
             table.increments('id');
             table.string('eventName').notNullable();
         })
-
+        .createTable('EventPlannerLink', table => {
+            table.increments('id');
+            table.integer('event_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.integer('eventPlanner_id', 5).unsigned().notNullable()
+                .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
+        })
         .createTable('Tables', table => {
             table.increments('id');
-            table.integer('eventTable_id', 5).unsigned().notNullable()
-                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
             table.string("table", 5);
+        })
+        .createTable('EventTableLink', table => {
+            table.increments('id');
+            table.integer('event_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.integer('eventTable_id', 5).unsigned().notNullable()
+                .references('id').inTable('Tables').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('FoodList', table => {
             table.increments('id');
-            table.integer('eventFood_id', 5).unsigned().notNullable()
-                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE')
             table.string("foodName", 128);
+        })
+        .createTable('EventFoodLink', table => {
+            table.increments('id');
+            table.integer('event_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.integer('eventFood_id', 5).unsigned().notNullable()
+                .references('id').inTable('FoodList').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('DrinkList', table => {
             table.increments('id');
-            table.integer('eventDrink_id', 5).unsigned().notNullable()
-                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
             table.string("drinkName", 128);
+        })
+        .createTable('EventDrinkLink', table => {
+            table.increments('id');
+            table.integer('event_id', 5).unsigned().notNullable()
+                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
+            table.integer('eventDrink_id', 5).unsigned().notNullable()
+                .references('id').inTable('DrinkList').onDelete('CASCADE').onUpdate('CASCADE');
         })
         .createTable('GuestList', table => {
             table.increments('id');
@@ -53,24 +74,19 @@ exports.up = function (knex) {
             table.integer('guestDrink', 5).unsigned().notNullable()
                 .references('id').inTable('DrinkList').onDelete('CASCADE').onUpdate('CASCADE');
         })
-        .createTable('EventPlannerLink', table => {
-            table.increments('id');
-            table.integer('event_id', 5).unsigned().notNullable()
-                .references('id').inTable('Events').onDelete('CASCADE').onUpdate('CASCADE');
-            table.integer('eventPlanner_id', 5).unsigned().notNullable()
-                .references('id').inTable('EventPlanners').onDelete('CASCADE').onUpdate('CASCADE');
-        })
-
 };
 
 exports.down = function (knex) {
     return knex.schema
-        .dropTableIfExists('EventPlannerLink')
         .dropTableIfExists('GuestLink')
         .dropTableIfExists('GuestList')
+        .dropTableIfExists('EventDrinkLink')
         .dropTableIfExists('DrinkList')
+        .dropTableIfExists('EventFoodLink')
         .dropTableIfExists('FoodList')
+        .dropTableIfExists('EventTableLink')
         .dropTableIfExists('Tables')
+        .dropTableIfExists('EventPlannerLink')
         .dropTableIfExists('Events')
         .dropTableIfExists('EventPlanners')
 };

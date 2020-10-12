@@ -4,8 +4,9 @@ const cors = require("cors");
 const helmet = require("helmet");
 
 const planners = require("./Components/EventOwner/index")
-const guest = require("./Components/EventGuest/index")
+const guests = require("./Components/EventGuest/index")
 const events = require("./Components/Events/index")
+const drinks = require("./Components/Drinks/index")
 
 const server = express()
 
@@ -19,8 +20,9 @@ server.use(helmet())
 server.use(express.json())
 
 server.use('/plannerList', planners);
-server.use('/guestList', guest)
-server.use('/events/', events)
+server.use('/guestList', guests)
+server.use('/eventList/', events)
+server.use('/drinkList/', drinks)
 server.get('/', (req, res) => {
     return res.json({ message: 'API is up ' });
 });

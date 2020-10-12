@@ -5,9 +5,12 @@ exports.seed = function (knex) {
     .then(function () {
       // Inserts seed entries
       return knex('DrinkList').insert([
-        { id: 1, drinkName: 'Star', eventDrink_id: 1 },
-        { id: 2, drinkName: 'Guiness', eventDrink_id: 1 },
-        { id: 3, drinkName: 'Malt', eventDrink_id: 2 }
+        { id: 1, drinkName: 'Star' },
+        { id: 2, drinkName: 'Guiness' },
+        { id: 3, drinkName: 'Malt' },
+        { id: 4, drinkName: 'Wine' },
+        { id: 5, drinkName: 'Vodka' },
+        { id: 6, drinkName: 'Cocktail' }
       ]);
     });
 };
